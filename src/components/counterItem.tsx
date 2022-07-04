@@ -7,26 +7,51 @@ import {
 } from "@mui/material";
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ICounter from "../types/ICounter";
+import { useAppDispatch } from "../store/hooks";
+import { updateCounter } from "../store/counters";
 
 interface IConuterItem {
-    value: number | string;
+    counter: ICounter;
     index: number;
 }
 
-const ConuterItem: React.FC<IConuterItem> = ({ value, index }) => {
+const ConuterItem: React.FC<IConuterItem> = ({ counter, index }) => {
+    const dispatch = useAppDispatch();
+
+    const handleInc = () => {
+        if (typeof counter.value === "number") {
+            counter.value++;
+            dispatch(updateCounter(counter));
+        }
+    };
+    const handleDec = () => {
+        if (typeof counter.value === "number") {
+            counter.value--;
+            dispatch(updateCounter(counter));
+        }
+    };
     return (
         <ListItem
-            key={index}
             secondaryAction={
                 <IconButton aria-label="delete">
                     <DeleteIcon />
                 </IconButton>
             }>
-            <ListItemText primary={`Count:  ${value}`} />
-            <ButtonGroup disableElevation variant="contained" sx={{ mr: 2 }}>
-                <Button color="success">+</Button>
-                <Button color="error">-</Button>
-            </ButtonGroup>
+            <ListItemText primary={`Count:  ${counter.value}`} />
+            {index % 4 === 0 && (
+                <ButtonGroup
+                    disableElevation
+                    variant="contained"
+                    sx={{ mr: 2 }}>
+                    <Button onClick={handleInc} color="success">
+                        +
+                    </Button>
+                    <Button onClick={handleDec} color="error">
+                        -
+                    </Button>
+                </ButtonGroup>
+            )}
         </ListItem>
     );
 };

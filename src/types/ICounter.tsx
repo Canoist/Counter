@@ -1,4 +1,4 @@
 export default interface ICounter {
-    value: number;
+    value: number | void;
     _id: number;
 }
