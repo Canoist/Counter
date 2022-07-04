@@ -1,6 +1,5 @@
 import { List } from "@mui/material";
 import React from "react";
-import "./App.css";
 import ConuterItem from "./components/counterItem";
 
 function App() {

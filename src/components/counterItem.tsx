@@ -1,4 +1,10 @@
-import { IconButton, ListItem, ListItemText } from "@mui/material";
+import {
+    Button,
+    ButtonGroup,
+    IconButton,
+    ListItem,
+    ListItemText,
+} from "@mui/material";
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -16,7 +22,11 @@ const ConuterItem: React.FC<IConuterItem> = ({ value, index }) => {
                     <DeleteIcon />
                 </IconButton>
             }>
-            <ListItemText primary={`Line item ${value}`} />
+            <ListItemText primary={`Count:  ${value}`} />
+            <ButtonGroup disableElevation variant="contained" sx={{ mr: 2 }}>
+                <Button color="success">+</Button>
+                <Button color="error">-</Button>
+            </ButtonGroup>
         </ListItem>
     );
 };
