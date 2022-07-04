@@ -1,6 +1,7 @@
-import { List } from "@mui/material";
+import { Box, List } from "@mui/material";
 import React from "react";
-import ConuterItem from "./components/counterItem";
+import AddCounterButton from "./components/addCounterButton";
+import CounterItem from "./components/counterItem";
 import { getCounters } from "./store/counters";
 import { useAppSelector } from "./store/hooks";
 import ICounter from "./types/ICounter";
@@ -8,12 +9,28 @@ import ICounter from "./types/ICounter";
 function App() {
     const counters = useAppSelector(getCounters());
     return (
-        <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-            {counters.map((counter: ICounter, index: number) => (
-                <ConuterItem index={index} counter={counter} />
-            ))}
-        </List>
+        <Box
+            sx={{
+                display: "flex",
+                p: 3,
+                justifyContent: "space-between",
+            }}>
+            <List
+                sx={{
+                    width: "100%",
+                    maxWidth: 460,
+                    bgcolor: "background.paper",
+                }}>
+                {counters.map((counter: ICounter, index: number) => (
+                    <CounterItem
+                        index={index + 1}
+                        counter={counter}
+                        key={counter._id}
+                    />
+                ))}
+            </List>
+            <AddCounterButton />
+        </Box>
     );
 }
 

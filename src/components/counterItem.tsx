@@ -9,37 +9,44 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ICounter from "../types/ICounter";
 import { useAppDispatch } from "../store/hooks";
-import { updateCounter } from "../store/counters";
+import { removeСounter, updateCounter } from "../store/counters";
 
-interface IConuterItem {
+interface ICounterItem {
     counter: ICounter;
     index: number;
 }
 
-const ConuterItem: React.FC<IConuterItem> = ({ counter, index }) => {
+const CounterItem: React.FC<ICounterItem> = ({ counter, index }) => {
     const dispatch = useAppDispatch();
 
     const handleInc = () => {
-        if (typeof counter.value === "number") {
-            counter.value++;
-            dispatch(updateCounter(counter));
-        }
+        const newCounter = { ...counter, value: counter.value + 1 };
+        dispatch(updateCounter(newCounter));
     };
+
     const handleDec = () => {
-        if (typeof counter.value === "number") {
-            counter.value--;
-            dispatch(updateCounter(counter));
-        }
+        const newCounter = { ...counter, value: counter.value - 1 };
+        dispatch(updateCounter(newCounter));
     };
+
+    const onDelete = (id: number) => {
+        dispatch(removeСounter(id));
+    };
+
     return (
         <ListItem
+            sx={{ flexGrow: 1 }}
             secondaryAction={
-                <IconButton aria-label="delete">
+                <IconButton
+                    aria-label="delete"
+                    onClick={() => {
+                        onDelete(counter._id);
+                    }}>
                     <DeleteIcon />
                 </IconButton>
             }>
             <ListItemText primary={`Count:  ${counter.value}`} />
-            {index % 4 === 0 && (
+            {index % 4 !== 0 && (
                 <ButtonGroup
                     disableElevation
                     variant="contained"
@@ -55,4 +62,4 @@ const ConuterItem: React.FC<IConuterItem> = ({ counter, index }) => {
         </ListItem>
     );
 };
-export default ConuterItem;
+export default CounterItem;

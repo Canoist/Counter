@@ -1,7 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import ICounter from "../types/ICounter";
-import { countAsync } from "../utils/countAsync";
-import { countReducer } from "../utils/countReducer";
 
 type CounterState = {
     entities: ICounter[];
@@ -30,17 +28,11 @@ const countersSlice = createSlice({
                 (counter) => counter._id !== action.payload
             );
         },
-        counterCreated: (state) => {
-            state.entities.push({
-                value:
-                    state.entities.length % 4
-                        ? countAsync(state.entities.reduce(countReducer, 0))
-                        : state.entities.reduce(countReducer, 0),
-                _id: Number(Date.now()),
-            });
+        counterCreated: (state, action: PayloadAction<ICounter>) => {
+            state.entities.push(action.payload);
         },
         counterUpdated: (state, action: PayloadAction<ICounter>) => {
-            state.entities.map((counter) => {
+            state.entities = state.entities.map((counter) => {
                 if (counter._id === action.payload._id) {
                     return (counter = action.payload);
                 } else return counter;
@@ -52,8 +44,8 @@ const countersSlice = createSlice({
 const { reducer: countersReducer, actions } = countersSlice;
 const { counterDeleted, counterCreated, counterUpdated } = actions;
 
-export const createCounter = () => (dispatch: Dispatch) => {
-    dispatch(counterCreated());
+export const createCounter = (payload: number) => (dispatch: Dispatch) => {
+    dispatch(counterCreated({ value: payload, _id: Number(Date.now()) }));
 };
 
 export const removeСounter = (id: number) => (dispatch: Dispatch) => {
@@ -61,6 +53,8 @@ export const removeСounter = (id: number) => (dispatch: Dispatch) => {
 };
 
 export const updateCounter = (payload: ICounter) => (dispatch: Dispatch) => {
+    console.log(payload);
+
     dispatch(counterUpdated(payload));
 };
 
