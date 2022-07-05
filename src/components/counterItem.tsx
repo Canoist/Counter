@@ -19,8 +19,6 @@ interface ICounterItem {
 const CounterItem: React.FC<ICounterItem> = ({ counter, index }) => {
     const dispatch = useAppDispatch();
 
-    let i = counter.value + 1;
-
     const handleInc = () => {
         const newCounter = { ...counter, value: counter.value + 1 };
         dispatch(updateCounter(newCounter));
@@ -40,15 +38,14 @@ const CounterItem: React.FC<ICounterItem> = ({ counter, index }) => {
             const timeOut = function () {
                 const newCounter = {
                     ...counter,
-                    value: i,
+                    value: counter.value + 1,
                 };
                 dispatch(updateCounter(newCounter));
-                i++;
             };
             const timer = setInterval(timeOut, 1000);
             return () => clearInterval(timer);
         }
-    }, [counter, dispatch, i, index]);
+    }, [counter, dispatch, index]);
 
     return (
         <ListItem
