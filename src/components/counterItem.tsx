@@ -5,7 +5,7 @@ import {
     ListItem,
     ListItemText,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ICounter from "../types/ICounter";
 import { useAppDispatch } from "../store/hooks";
@@ -18,6 +18,8 @@ interface ICounterItem {
 
 const CounterItem: React.FC<ICounterItem> = ({ counter, index }) => {
     const dispatch = useAppDispatch();
+
+    let i = counter.value + 1;
 
     const handleInc = () => {
         const newCounter = { ...counter, value: counter.value + 1 };
@@ -32,6 +34,21 @@ const CounterItem: React.FC<ICounterItem> = ({ counter, index }) => {
     const onDelete = (id: number) => {
         dispatch(removeСounter(id));
     };
+
+    useEffect(() => {
+        if (index % 4 === 0 && index !== 0) {
+            const timeOut = function () {
+                const newCounter = {
+                    ...counter,
+                    value: i,
+                };
+                dispatch(updateCounter(newCounter));
+                i++;
+            };
+            const timer = setInterval(timeOut, 1000);
+            return () => clearInterval(timer);
+        }
+    }, [counter, dispatch, i, index]);
 
     return (
         <ListItem

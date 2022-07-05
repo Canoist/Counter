@@ -53,8 +53,6 @@ export const removeСounter = (id: number) => (dispatch: Dispatch) => {
 };
 
 export const updateCounter = (payload: ICounter) => (dispatch: Dispatch) => {
-    console.log(payload);
-
     dispatch(counterUpdated(payload));
 };
 

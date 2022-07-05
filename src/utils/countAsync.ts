@@ -1,5 +1,5 @@
 export function countAsync(initial: number) {
-    let i = initial;
+    let i: number = initial;
     setTimeout(function timeOut() {
         setTimeout(timeOut, 1000);
         i++;
