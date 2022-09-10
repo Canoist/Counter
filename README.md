@@ -1,6 +1,11 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Use a Redux, MUI, TypeScript
+
+App for work with elements-counters
+You can add or remove counter, each initial value of counter has the sum of values from previous counters.
+Every 4th counter has no buttons, but each second increment his value by 1.
 
 ## Available Scripts
 
